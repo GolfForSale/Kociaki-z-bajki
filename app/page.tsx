@@ -1,65 +1,121 @@
-import Image from "next/image";
+import { safeFetch } from '@/sanity/lib/client'
+import {
+  siteSettingsQuery,
+  aboutBreedQuery,
+  aboutUsQuery,
+  catsQuery,
+  galleryQuery,
+  littersQuery,
+  availableKittensQuery,
+} from '@/sanity/lib/queries'
+import {
+  SiteSettings,
+  AboutBreed,
+  AboutUs,
+  Cat,
+  GalleryImage,
+  Litter,
+  Kitten,
+} from '@/types/sanity'
 
-export default function Home() {
+import Navigation from '@/components/Navigation'
+import Hero from '@/components/Hero'
+import AboutBreedSection from '@/components/AboutBreed'
+import AboutUsSection from '@/components/AboutUs'
+import OurCats from '@/components/OurCats'
+import Gallery from '@/components/Gallery'
+import BreedingPlans from '@/components/BreedingPlans'
+import Contact from '@/components/Contact'
+import Footer from '@/components/Footer'
+
+async function getData() {
+  const [siteSettings, aboutBreed, aboutUs, cats, gallery, litters, availableKittens] = await Promise.all([
+    safeFetch<SiteSettings>(siteSettingsQuery),
+    safeFetch<AboutBreed>(aboutBreedQuery),
+    safeFetch<AboutUs>(aboutUsQuery),
+    safeFetch<Cat[]>(catsQuery),
+    safeFetch<GalleryImage[]>(galleryQuery),
+    safeFetch<Litter[]>(littersQuery),
+    safeFetch<Kitten[]>(availableKittensQuery),
+  ])
+
+  return {
+    siteSettings,
+    aboutBreed,
+    aboutUs,
+    cats: cats || [],
+    gallery: gallery || [],
+    litters: litters || [],
+    availableKittens: availableKittens || [],
+  }
+}
+
+export default async function Home() {
+  const data = await getData()
+
+  // Default values for when CMS is not set up yet
+  const defaultSettings = {
+    siteName: 'Kociak z Bajki',
+    heroTitle: 'Kociak z Bajki',
+    heroSubtitle: 'Hodowla kotów rasowych Ragdoll. Piękne, spokojne koty o wyjątkowym charakterze i niebieskich oczach.',
+  }
+
+  const settings = data.siteSettings || defaultSettings
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <>
+      <Navigation
+        logo={data.siteSettings?.logo}
+        siteName={settings.siteName}
+      />
+
+      <main>
+        {data.siteSettings?.heroImage ? (
+          <Hero
+            heroImage={data.siteSettings.heroImage}
+            heroTitle={settings.heroTitle}
+            heroSubtitle={settings.heroSubtitle}
+          />
+        ) : (
+          // Placeholder hero when no image is set
+          <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
+            <div className="text-center text-white p-6">
+              <h1 className="font-display text-5xl md:text-7xl font-bold mb-6">
+                {settings.heroTitle}
+              </h1>
+              <p className="text-lg text-white/70 max-w-2xl mx-auto mb-8">
+                {settings.heroSubtitle}
+              </p>
+              <p className="text-sm text-white/50">
+                Przejdź do panelu CMS (/studio), aby dodać zdjęcie główne i treści.
+              </p>
+            </div>
+          </section>
+        )}
+
+        <AboutBreedSection data={data.aboutBreed} />
+        <AboutUsSection data={data.aboutUs} />
+        <OurCats cats={data.cats || []} />
+        <Gallery images={data.gallery || []} />
+        <BreedingPlans
+          litters={data.litters || []}
+          availableKittens={data.availableKittens || []}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+        <Contact
+          email={data.siteSettings?.contactEmail}
+          phone={data.siteSettings?.contactPhone}
+          address={data.siteSettings?.address}
+          facebookUrl={data.siteSettings?.facebookUrl}
+          instagramUrl={data.siteSettings?.instagramUrl}
+        />
       </main>
-    </div>
-  );
+
+      <Footer
+        logo={data.siteSettings?.logo}
+        siteName={settings.siteName}
+        facebookUrl={data.siteSettings?.facebookUrl}
+        instagramUrl={data.siteSettings?.instagramUrl}
+      />
+    </>
+  )
 }

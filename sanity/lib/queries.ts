@@ -94,3 +94,13 @@ export const availableKittensQuery = groq`
     litter->{name}
   }
 `
+
+export const adoptionInfoQuery = groq`
+  *[_type == "adoptionInfo"][0] {
+    title,
+    subtitle,
+    content,
+    image,
+    imagePosition
+  }
+`

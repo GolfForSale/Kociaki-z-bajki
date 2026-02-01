@@ -58,7 +58,7 @@ export default function Gallery({ images }: GalleryProps) {
   }
 
   return (
-    <section id="galeria" className="py-24 md:py-32 bg-cream-50 relative overflow-hidden">
+    <section id="galeria" className="py-24 md:py-10 bg-cream-50 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute -top-40 -left-40 w-80 h-80 bg-rose-100/40 rounded-full blur-3xl" />
       <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl" />
@@ -90,7 +90,7 @@ export default function Gallery({ images }: GalleryProps) {
           ))}
         </div>
 
-        {/* Images Grid */}
+        {/* Images Grid - Cropped thumbnails for uniform look */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredImages.map((image, index) => (
             <button
@@ -99,7 +99,7 @@ export default function Gallery({ images }: GalleryProps) {
               className="relative aspect-square rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300"
             >
               <Image
-                src={urlFor(image.image).width(400).height(400).url()}
+                src={urlFor(image.image).width(400).height(400).fit('crop').url()}
                 alt={image.alt || 'Zdjęcie z galerii'}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -142,13 +142,15 @@ export default function Gallery({ images }: GalleryProps) {
             <ChevronRight className="w-6 h-6" />
           </button>
 
-          {/* Image */}
-          <div className="relative max-w-5xl max-h-[80vh] w-full h-full">
+          {/* Image - Full uncropped image in lightbox */}
+          <div className="relative max-w-5xl max-h-[80vh] w-full h-full flex items-center justify-center">
             <Image
-              src={urlFor(filteredImages[currentIndex].image).width(1200).height(800).url()}
+              src={urlFor(filteredImages[currentIndex].image).width(1600).url()}
               alt={filteredImages[currentIndex].alt || 'Zdjęcie z galerii'}
-              fill
-              className="object-contain"
+              width={1600}
+              height={1200}
+              className="max-w-full max-h-[80vh] w-auto h-auto"
+              style={{ objectFit: 'contain' }}
             />
           </div>
 

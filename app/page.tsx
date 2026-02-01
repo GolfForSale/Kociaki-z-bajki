@@ -7,6 +7,7 @@ import {
   galleryQuery,
   littersQuery,
   availableKittensQuery,
+  adoptionInfoQuery,
 } from '@/sanity/lib/queries'
 import {
   SiteSettings,
@@ -16,6 +17,7 @@ import {
   GalleryImage,
   Litter,
   Kitten,
+  AdoptionInfo,
 } from '@/types/sanity'
 
 import Navigation from '@/components/Navigation'
@@ -25,11 +27,12 @@ import AboutUsSection from '@/components/AboutUs'
 import OurCats from '@/components/OurCats'
 import Gallery from '@/components/Gallery'
 import BreedingPlans from '@/components/BreedingPlans'
+import AdoptionInfoSection from '@/components/AdoptionInfo'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
 
 async function getData() {
-  const [siteSettings, aboutBreed, aboutUs, cats, gallery, litters, availableKittens] = await Promise.all([
+  const [siteSettings, aboutBreed, aboutUs, cats, gallery, litters, availableKittens, adoptionInfo] = await Promise.all([
     safeFetch<SiteSettings>(siteSettingsQuery),
     safeFetch<AboutBreed>(aboutBreedQuery),
     safeFetch<AboutUs>(aboutUsQuery),
@@ -37,6 +40,7 @@ async function getData() {
     safeFetch<GalleryImage[]>(galleryQuery),
     safeFetch<Litter[]>(littersQuery),
     safeFetch<Kitten[]>(availableKittensQuery),
+    safeFetch<AdoptionInfo>(adoptionInfoQuery),
   ])
 
   return {
@@ -47,6 +51,7 @@ async function getData() {
     gallery: gallery || [],
     litters: litters || [],
     availableKittens: availableKittens || [],
+    adoptionInfo,
   }
 }
 
@@ -101,6 +106,7 @@ export default async function Home() {
           litters={data.litters || []}
           availableKittens={data.availableKittens || []}
         />
+        <AdoptionInfoSection data={data.adoptionInfo} />
         <Contact
           email={data.siteSettings?.contactEmail}
           phone={data.siteSettings?.contactPhone}

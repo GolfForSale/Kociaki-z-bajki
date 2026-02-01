@@ -59,7 +59,7 @@ export default function BreedingPlans({ litters, availableKittens }: BreedingPla
   }
 
   return (
-    <section id="plany-hodowlane" className="py-24 md:py-32 bg-white relative overflow-hidden">
+    <section id="plany-hodowlane" className="py-24 md:py-10 bg-white relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-1/2 left-0 w-1/3 h-px bg-gradient-to-r from-slate-200 to-transparent" />
       <div className="absolute top-1/2 right-0 w-1/3 h-px bg-gradient-to-l from-slate-200 to-transparent" />

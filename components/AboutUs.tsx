@@ -11,7 +11,7 @@ export default function AboutUs({ data }: AboutUsProps) {
   if (!data) return null
 
   return (
-    <section id="o-nas" className="py-24 md:py-32 bg-white relative overflow-hidden">
+    <section id="o-nas" className="py-24 md:py-10 bg-white relative overflow-hidden">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -32,22 +32,24 @@ export default function AboutUs({ data }: AboutUsProps) {
             </div>
           </div>
 
-          {/* Images */}
+          {/* Images - full, not cropped */}
           <div className="relative">
             {data.images && data.images.length > 0 && (
               <div className="grid grid-cols-2 gap-4">
                 {data.images.slice(0, 4).map((image, index) => (
                   <div
                     key={index}
-                    className={`relative rounded-2xl overflow-hidden shadow-lg ${
-                      index === 0 ? 'col-span-2 aspect-[16/9]' : 'aspect-square'
+                    className={`rounded-2xl overflow-hidden shadow-lg ${
+                      index === 0 ? 'col-span-2' : ''
                     }`}
                   >
                     <Image
-                      src={urlFor(image).width(index === 0 ? 800 : 400).height(index === 0 ? 450 : 400).url()}
+                      src={urlFor(image).width(index === 0 ? 800 : 400).url()}
                       alt={image.alt || 'Nasza hodowla'}
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      width={index === 0 ? 800 : 400}
+                      height={index === 0 ? 600 : 400}
+                      className="w-full h-auto hover:scale-105 transition-transform duration-500"
+                      style={{ display: 'block' }}
                     />
                   </div>
                 ))}

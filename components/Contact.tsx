@@ -69,7 +69,7 @@ export default function Contact({ email, phone, address, facebookUrl, instagramU
   }
 
   return (
-    <section id="kontakt" className="py-24 md:py-32 bg-gradient-to-br from-slate-800 to-slate-900 relative overflow-hidden">
+    <section id="kontakt" className="py-24 md:py-10 bg-gradient-to-br from-slate-800 to-slate-900 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-rose-400/30 to-transparent" />
       <div className="absolute -top-40 -right-40 w-80 h-80 bg-rose-500/10 rounded-full blur-3xl" />

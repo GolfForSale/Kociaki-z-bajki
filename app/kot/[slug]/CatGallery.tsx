@@ -37,13 +37,13 @@ export default function CatGallery({ photos, catName }: CatGalleryProps) {
   return (
     <>
       <div className="space-y-4">
-        {/* Main Image */}
+        {/* Main Image - Cropped to consistent aspect ratio */}
         <button
           onClick={() => openLightbox(selectedIndex)}
           className="relative aspect-[4/5] w-full rounded-3xl overflow-hidden shadow-2xl group"
         >
           <Image
-            src={urlFor(photos[selectedIndex]).width(800).height(1000).url()}
+            src={urlFor(photos[selectedIndex]).width(800).height(1000).fit('crop').url()}
             alt={`${catName} - zdjęcie ${selectedIndex + 1}`}
             fill
             priority
@@ -56,9 +56,9 @@ export default function CatGallery({ photos, catName }: CatGalleryProps) {
           </div>
         </button>
 
-        {/* Thumbnails */}
+        {/* Thumbnails - Cropped squares */}
         {photos.length > 1 && (
-          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+          <div className="flex gap-3 overflow-x-auto py-2 px-1 -mx-1 scrollbar-hide">
             {photos.map((photo, index) => (
               <button
                 key={index}
@@ -70,7 +70,7 @@ export default function CatGallery({ photos, catName }: CatGalleryProps) {
                 }`}
               >
                 <Image
-                  src={urlFor(photo).width(160).height(160).url()}
+                  src={urlFor(photo).width(160).height(160).fit('crop').url()}
                   alt={`${catName} - miniatura ${index + 1}`}
                   fill
                   className="object-cover"
@@ -105,12 +105,15 @@ export default function CatGallery({ photos, catName }: CatGalleryProps) {
             <ChevronRight className="w-6 h-6" />
           </button>
 
-          <div className="relative max-w-5xl max-h-[80vh] w-full h-full">
+          {/* Full uncropped image in lightbox */}
+          <div className="relative max-w-5xl max-h-[80vh] w-full h-full flex items-center justify-center">
             <Image
-              src={urlFor(photos[selectedIndex]).width(1400).height(1000).url()}
+              src={urlFor(photos[selectedIndex]).width(1600).url()}
               alt={`${catName} - zdjęcie ${selectedIndex + 1}`}
-              fill
-              className="object-contain"
+              width={1600}
+              height={1200}
+              className="max-w-full max-h-[80vh] w-auto h-auto"
+              style={{ objectFit: 'contain' }}
             />
           </div>
 

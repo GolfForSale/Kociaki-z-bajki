@@ -86,3 +86,11 @@ export interface Litter {
   description?: string
   kittens?: Kitten[]
 }
+
+export interface AdoptionInfo {
+  title: string
+  subtitle?: string
+  content: PortableTextBlock[]
+  image?: SanityImage
+  imagePosition?: 'left' | 'right'
+}

@@ -5,6 +5,7 @@ import { cat } from './cat'
 import { galleryImage } from './galleryImage'
 import { litter } from './litter'
 import { kitten } from './kitten'
+import { adoptionInfo } from './adoptionInfo'
 
 export const schemaTypes = [
   siteSettings,
@@ -14,4 +15,5 @@ export const schemaTypes = [
   galleryImage,
   litter,
   kitten,
+  adoptionInfo,
 ]

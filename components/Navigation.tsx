@@ -18,6 +18,7 @@ const navItems = [
   { href: '#nasze-kotki', label: 'Nasze Kotki' },
   { href: '#galeria', label: 'Galeria' },
   { href: '#plany-hodowlane', label: 'Plany hodowlane' },
+  { href: '#adopcja', label: 'Zanim kupisz kota' },
   { href: '#kontakt', label: 'Kontakt' },
 ]
 

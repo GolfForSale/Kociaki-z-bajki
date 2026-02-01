@@ -21,7 +21,7 @@ export default function OurCats({ cats }: OurCatsProps) {
   }
 
   return (
-    <section id="nasze-kotki" className="py-24 md:py-32 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
+    <section id="nasze-kotki" className="py-24 md:py-10 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
       
